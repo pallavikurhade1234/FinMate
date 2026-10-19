@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f766e"><meta name="description" content="FinMate personal finance manager">
+  <title>FinMate — Personal Finance</title>
+  <link rel="manifest" href="./manifest.json"><link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#"><span class="brand-icon">F</span><span>FinMate<small>PERSONAL FINANCE</small></span></a>
+    <nav>
+      <a class="nav-link active" href="#overview">▦ <span>Overview</span></a>
+      <a class="nav-link" href="#transactions">↔ <span>Transactions</span></a>
+      <a class="nav-link" href="#budget">◷ <span>Budgets</span></a>
+      <a class="nav-link" href="#goals">◎ <span>Savings goals</span></a>
+      <a class="nav-link" href="#assistant">✦ <span>FinMate AI</span></a>
+    </nav>
+    <div class="sidebar-bottom"><div class="secure-dot"></div><span>Private on this device</span></div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><div><p class="eyebrow">YOUR MONEY, MORE CLARITY</p><h1>Good day 👋</h1><p class="muted">Here's your financial snapshot.</p></div><div class="top-actions"><span class="today" id="today"></span><button id="themeToggle" class="icon-btn" aria-label="Toggle dark mode">☾</button></div></header>
+    <section id="overview" class="stats-grid">
+      <article class="stat-card balance-card"><div class="stat-label">Total balance <span>↗</span></div><div id="balance" class="stat-value">₹0</div><div class="stat-foot">Income minus expenses</div><div class="balance-art">₹</div></article>
+      <article class="stat-card"><div class="stat-label">Income <span class="stat-icon income">↙</span></div><div id="income" class="stat-value">₹0</div><div class="stat-foot">This month</div></article>
+      <article class="stat-card"><div class="stat-label">Expenses <span class="stat-icon expense">↗</span></div><div id="expense" class="stat-value">₹0</div><div class="stat-foot">This month</div></article>
+      <article class="stat-card"><div class="stat-label">Savings rate <span class="stat-icon savings">◎</span></div><div id="savingsRate" class="stat-value">0%</div><div class="stat-foot">Of this month's income</div></article>
+    </section>
+    <div class="content-grid">
+      <section class="panel" id="transactions">
+        <div class="section-heading"><div><p class="eyebrow">ACTIVITY</p><h2>Transactions</h2></div><button class="primary-btn" id="showForm">＋ Add transaction</button></div>
+        <form id="transactionForm" class="transaction-form hidden">
+          <label>Description<input id="description" placeholder="e.g. Grocery shopping" required maxlength="70"></label>
+          <label>Amount (₹)<input id="amount" type="number" min="1" step="0.01" placeholder="500" required></label>
+          <label>Type<select id="type"><option value="expense">Expense</option><option value="income">Income</option></select></label>
+          <label>Category<select id="category"><option>Food</option><option>Transport</option><option>Education</option><option>Shopping</option><option>Bills</option><option>Health</option><option>Salary</option><option>Freelance</option><option>Other</option></select></label>
+          <label>Date<input id="date" type="date" required></label>
+          <button class="primary-btn form-submit" type="submit">Save transaction</button>
+        </form>
+        <div class="filters"><input id="search" placeholder="⌕ Search transactions…"><select id="filterType"><option value="all">All types</option><option value="income">Income</option><option value="expense">Expenses</option></select></div>
+        <div class="table-wrap"><table><thead><tr><th>DESCRIPTION</th><th>CATEGORY</th><th>DATE</th><th>AMOUNT</th><th></th></tr></thead><tbody id="transactionRows"></tbody></table></div>
+        <p id="emptyState" class="empty-state">No transactions yet. Add one to get started.</p>
+      </section>
+      <section class="panel" id="budget">
+        <div class="section-heading"><div><p class="eyebrow">STAY ON TRACK</p><h2>Monthly budget</h2></div><span class="round-icon">◷</span></div>
+        <p class="muted small">Set a spending limit for this month.</p>
+        <form id="budgetForm" class="budget-form"><label for="budgetAmount">Budget amount (₹)</label><div class="inline-form"><input id="budgetAmount" type="number" min="0" step="100" placeholder="e.g. 10000" required><button class="primary-btn" type="submit">Save</button></div></form>
+        <div class="budget-summary"><span>Spent this month</span><strong id="budgetSpent">₹0</strong></div>
+        <div class="progress-track"><div id="budgetProgress" class="progress-fill"></div></div>
+        <div class="budget-summary muted"><span id="budgetPercent">0% used</span><span id="budgetRemaining">Set a budget</span></div>
+        <div id="budgetMessage" class="tip-box">💡 Set a budget to keep your spending in check.</div>
+        <div class="divider"></div>
+        <div class="section-heading"><h3>Spending breakdown</h3><span class="muted small">This month</span></div>
+        <div id="categoryBreakdown" class="category-breakdown"></div>
+      </section>
+    </div>
+    <div class="content-grid lower-grid">
+      <section class="panel" id="goals">
+        <div class="section-heading"><div><p class="eyebrow">FUTURE YOU</p><h2>Savings goals</h2></div><button id="addGoalBtn" class="secondary-btn">＋ New goal</button></div>
+        <form id="goalForm" class="goal-form hidden"><label>Goal name<input id="goalName" placeholder="e.g. New laptop" required maxlength="50"></label><label>Target (₹)<input id="goalTarget" type="number" min="1" required></label><label>Saved (₹)<input id="goalSaved" type="number" min="0" value="0" required></label><button class="primary-btn" type="submit">Add goal</button></form>
+        <div id="goalsList" class="goals-list"></div>
+      </section>
+      <section class="panel assistant-panel" id="assistant">
+        <div class="section-heading"><div><p class="eyebrow">SMART MONEY HABITS</p><h2>FinMate assistant <span class="sparkle">✦</span></h2></div><span class="online-pill">● Ready</span></div>
+        <div class="assistant-welcome"><div class="bot-avatar">F</div><div><strong>Hi! I'm your FinMate guide.</strong><p class="muted small">Ask about your spending or try a quick tip.</p></div></div>
+        <div class="quick-prompts"><button data-prompt="summary">My summary</button><button data-prompt="budget">Budget status</button><button data-prompt="tips">Saving tips</button></div>
+        <div id="chatMessages" class="chat-messages" aria-live="polite"><div class="chat-bubble bot">Welcome! Add a few transactions and I can help you understand your budget. Your entries stay in this browser.</div></div>
+        <form id="chatForm" class="chat-form"><input id="chatInput" placeholder="Ask FinMate something…" autocomplete="off" required><button class="primary-btn" aria-label="Send message">➤</button></form>
+        <p class="disclaimer">FinMate provides general budgeting guidance, not professional financial advice.</p>
+      </section>
+    </div>
+    <footer>FinMate © <span id="year"></span> <span>•</span> Made for mindful money habits <button id="exportCsv" class="text-btn">Export CSV ↓</button><button id="clearData" class="text-btn danger-text">Clear demo data</button></footer>
+  </main>
+  <script src="./script.js"></script><script src="./chatbot.js"></script><script>if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) { window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js").catch(console.error)); }</script>
+</body></html>
